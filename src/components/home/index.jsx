@@ -1,42 +1,25 @@
 import React from 'react'
 import Table from "../table";
+import MemebersFilter from '../memebersFilter';
 
-import { connect } from "react-redux";
 import { Link } from 'react-router-dom';
 
-const Home = ({removeItem, newData, people}) => {
+const Home = ({removeItem, data, people}) => {
   return (
-    <div className="home">
+    <div className="home block">
       <header className='app__header'>
-        <h2 className="home__title">Calendar</h2>
+        <h2 className="home__title title">Calendar</h2>
         <div className="header__menu">
-          <div className="header__people">
-            {
-              people.map((item, index) => (
-                <label htmlFor={item} key={index.toString()}>
-                  {item}
-                  <input type="checkbox" id={item} />
-                </label>
-              ))
-            }
-          </div>
-          <Link to="/create-event">New Event +</Link>
+          <MemebersFilter />
+
+          <Link className='link title' to="/create-event">New Event +</Link>
         </div>
       </header>
-      <Table newData={newData} removeItem={removeItem}/>
+      <div className="block">
+        <Table/>
+      </div>
     </div>
   )
 }
 
-const mapStateToProps = ({ people }) => ({
-  people
-})
-
-const mapDispatchToProps = {
-
-}
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Home);
+export default Home

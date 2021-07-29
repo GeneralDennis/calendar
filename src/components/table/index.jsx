@@ -4,13 +4,8 @@ import Cell from '../cell'
 import { connect } from "react-redux";
 import { removeItem } from '../../redux/actions'
 
-const Table = (removeItem, newData, hours) => {
-  // const hours = [];
+const Table = ({removeItem, data, hours}) => {
   const heading = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri']
-  // for(let i = 10; i<= 18 ;i++){
-  //   hours.push(i)
-  // }
-
   const renderCell = (data, hour, day) => {
     return (
       data.map((el, index) => {
@@ -39,7 +34,7 @@ const Table = (removeItem, newData, hours) => {
               <td
                 key={index}
               >
-                {newData.length > 0 ? renderCell(newData, hour, item) : ''}
+                {data.length > 0 ? renderCell(data, hour, item) : ''}
               </td>
             ))}
           </tr>
@@ -48,8 +43,8 @@ const Table = (removeItem, newData, hours) => {
     </table>
   )
 }
-const mapStateToProps = ({ newData, hours }) => ({
-  newData,
+const mapStateToProps = ({ data, hours }) => ({
+  data,
   hours
 })
 
