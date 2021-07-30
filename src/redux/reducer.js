@@ -7,14 +7,14 @@ import {
 const data = [
   {
     id: 1,
-    members: ['Maria', 'Bob', 'Alex'],
+    members: ['Maria', 'John'],
     day: 'wed',
     time: 12,
     task: 'Create Table'
   },
   {
     id: 2,
-    members: ['Maria', 'Alex', 'Peter', 'John'],
+    members: ['Peter', 'John'],
     day: 'fri',
     time: 16,
     task: 'Release'
@@ -27,13 +27,6 @@ const hours = [10, 11, 12, 13, 14, 15, 16, 17, 18]
 
 const initialState = {
   data,
-  newEvent: {
-    id: '',
-    task: '',
-    day: '',
-    time: '',
-    members: []
-  },
   people,
   days,
   hours,

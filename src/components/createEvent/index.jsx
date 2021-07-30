@@ -1,10 +1,8 @@
 import React, { useState} from 'react'
 import { connect } from "react-redux";
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import './index.sass';
-import {
-  createNewEvent
-} from '../../redux/actions'
+import {createNewEvent} from '../../redux/actions'
 
 
 
@@ -15,15 +13,40 @@ const CreateEvent = ({
   data,
   createNewEvent
 }) => {
-  const [event, setEvent] = useState({ id: new Date().getTime(), members: ['Maria'], day: 'mon', time: 0,  task: ''})
-  const [error, setError] = useState(false)
+  const [event, setEvent] = useState({ id: new Date().getTime(), members: [], day: '', time: '',  task: ''})
+  const [error, setError] = useState(false);
+  const history = useHistory();
+
   const handleChange = e => {
     const { name, value } = e.target;
 
     setEvent(prevState => ({
       ...prevState,
       [name]: name === 'time' ? +value : value
-    }))
+    }));
+    setError(false);
+  }
+
+  const handleCreate = () => {
+    // validate(event)
+    if(data.find(item => item.day.toLowerCase() === event.day.toLowerCase() && +item.time === +event.time)){
+      setError(true);
+      return;
+    }
+
+    if(!error){
+      createNewEvent(event);
+      history.push("/");
+      setEvent(prevState => ({
+        ...prevState,
+        id: new Date().getTime(),
+        members: [],
+        day: '',
+        time: '',
+        task: ''
+      }));
+      setError(false);
+    }
   }
 
   const checkPeople = ({members}, value) => {
@@ -41,12 +64,6 @@ const CreateEvent = ({
     }
   }
 
-  const validate = ev => {
-    data.forEach(item => {
-
-      item.day.toLowerCase() === ev.day.toLowerCase() ? +item.time === +ev.time ? setError(true) : setError(false) : setError(false)
-    });
-  }
 
   return (
     <div className='block'>
@@ -117,11 +134,15 @@ const CreateEvent = ({
           <h2 className="title">This day and time is not available</h2>
         </div>
         : ''}
+        {event.day.length && event.task.length && event.members.length ?
         <button
           className='block button'
           name='id'
-          onClick={e => createNewEvent(event)}
+          disabled={error}
+          onClick={() => handleCreate()}
         >Create!</button>
+        : ''
+        }
 
       </div>
 
